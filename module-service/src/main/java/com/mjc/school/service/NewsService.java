@@ -1,7 +1,7 @@
 package com.mjc.school.service;
 
 import com.mjc.school.repository.implementation.NewsRepositoryImplementation;
-import com.mjc.school.repository.model.NewsDtoResponse;
+import com.mjc.school.repository.model.NewsDtoResponseModel;
 
 import java.util.List;
 import java.util.Scanner;
@@ -18,11 +18,11 @@ public class NewsService {
         return instance;
     }
 
-    public List<NewsDtoResponse> getAllNews() {
+    public List<NewsDtoResponseModel> getAllNews() {
         return REPOSITORY.readAll();
     }
 
-    public NewsDtoResponse getNewsById(String stringNewsId) {
+    public NewsDtoResponseModel getNewsById(String stringNewsId) {
         long newsId;
         try {
             newsId = Long.parseLong(stringNewsId);
@@ -33,8 +33,8 @@ public class NewsService {
         return REPOSITORY.readById(newsId);
     }
 
-    public NewsDtoResponse createNews(Scanner scanner) {
-        NewsDtoResponse newNews = setTitleAndContent(scanner);
+    public NewsDtoResponseModel createNews(Scanner scanner) {
+        NewsDtoResponseModel newNews = setTitleAndContent(scanner);
         String title = newNews.getTitle();
         String content = newNews.getContent();
         System.out.println("Enter author id:");
@@ -52,7 +52,7 @@ public class NewsService {
         return REPOSITORY.create(title, content, authorId);
     }
 
-    public NewsDtoResponse updateNews(Scanner scanner) {
+    public NewsDtoResponseModel updateNews(Scanner scanner) {
         System.out.println("Enter news id:");
         String id = scanner.nextLine();
         long newsId;
@@ -62,11 +62,11 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
             return updateNews(scanner);
         }
-        NewsDtoResponse updatedNews = REPOSITORY.readById(newsId);
+        NewsDtoResponseModel updatedNews = REPOSITORY.readById(newsId);
         if (updatedNews == null) {
             return updateNews(scanner);
         }
-        NewsDtoResponse newNews = setTitleAndContent(scanner);
+        NewsDtoResponseModel newNews = setTitleAndContent(scanner);
         String title = newNews.getTitle();
         String content = newNews.getContent();
 
@@ -109,12 +109,12 @@ public class NewsService {
         return false;
     }
 
-    private NewsDtoResponse setTitleAndContent(Scanner scanner) {
+    private NewsDtoResponseModel setTitleAndContent(Scanner scanner) {
         System.out.println("Enter news title:");
         String title = scanner.nextLine();
         System.out.println("Enter news content:");
         String content = scanner.nextLine();
-        return NewsDtoResponse.builder()
+        return NewsDtoResponseModel.builder()
                 .title(title)
                 .content(content)
                 .build();

@@ -1,7 +1,7 @@
 package com.mjc.school;
 
 import com.mjc.school.constants.ActionCodes;
-import com.mjc.school.repository.model.NewsDtoResponse;
+import com.mjc.school.repository.model.NewsDtoResponseModel;
 import com.mjc.school.service.NewsService;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class Main {
             switch (in) {
                 case ActionCodes.GET_ALL_NEWS:
                     System.out.println("Operation: Get all news.");
-                    List<NewsDtoResponse> allNews = NewsService.get().getAllNews();
-                    for (NewsDtoResponse news : allNews) {
+                    List<NewsDtoResponseModel> allNews = NewsService.get().getAllNews();
+                    for (NewsDtoResponseModel news : allNews) {
                         System.out.println(news);
                     }
                     break;

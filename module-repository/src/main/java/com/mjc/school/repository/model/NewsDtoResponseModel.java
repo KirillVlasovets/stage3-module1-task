@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewsDtoResponse {
+public class NewsDtoResponseModel {
 
     @JsonProperty("id")
     private long id;

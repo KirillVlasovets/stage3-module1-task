@@ -1,18 +1,18 @@
 package com.mjc.school.repository.dao;
 
-import com.mjc.school.repository.model.NewsDtoResponse;
+import com.mjc.school.repository.model.NewsDtoResponseModel;
 
 import java.util.List;
 
 public interface NewsRepository {
 
-    List<NewsDtoResponse> readAll();
+    List<NewsDtoResponseModel> readAll();
 
-    NewsDtoResponse readById(long newsId);
+    NewsDtoResponseModel readById(long newsId);
 
-    NewsDtoResponse create(String title, String content, long authorId);
+    NewsDtoResponseModel create(String title, String content, long authorId);
 
-    NewsDtoResponse update(NewsDtoResponse news, String title, String content, long authorId);
+    NewsDtoResponseModel update(NewsDtoResponseModel news, String title, String content, long authorId);
 
-    boolean delete(long newsId);
+    Boolean delete(long newsId);
 }

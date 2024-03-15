@@ -1,27 +1,19 @@
 package com.mjc.school.repository.implementation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mjc.school.repository.dao.NewsRepository;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsDtoResponseModel;
 import com.mjc.school.repository.source.DataSource;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsRepositoryImplementation implements NewsRepository {
+public class NewsRepositoryDataSourceImplementation implements NewsRepository {
 
     private List<NewsDtoResponseModel> allNews;
     private List<Author> authors;
 
-    public NewsRepositoryImplementation() {
+    public NewsRepositoryDataSourceImplementation() {
         DataSource dataSource = new DataSource();
         allNews = dataSource.getAllNews();
         authors = dataSource.getAuthors();

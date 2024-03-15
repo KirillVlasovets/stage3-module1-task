@@ -1,6 +1,6 @@
 package com.mjc.school.service;
 
-import com.mjc.school.repository.implementation.NewsRepositoryDataSourceImplementation;
+import com.mjc.school.repository.implementation.NewsRepositoryImplementation;
 import com.mjc.school.repository.model.NewsDtoResponseModel;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class NewsService {
 
     private static NewsService instance;
-    private static final NewsRepositoryDataSourceImplementation REPOSITORY = new NewsRepositoryDataSourceImplementation();
+    private static final NewsRepositoryImplementation REPOSITORY = new NewsRepositoryImplementation();
 
     public static NewsService get() {
         if (instance == null) {

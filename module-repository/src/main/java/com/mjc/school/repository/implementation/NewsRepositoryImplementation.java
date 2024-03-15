@@ -3,17 +3,17 @@ package com.mjc.school.repository.implementation;
 import com.mjc.school.repository.dao.NewsRepository;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsDtoResponseModel;
-import com.mjc.school.repository.source.DataSource;
+import com.mjc.school.repository.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsRepositoryDataSourceImplementation implements NewsRepository {
+public class NewsRepositoryImplementation implements NewsRepository {
 
     private List<NewsDtoResponseModel> allNews;
     private List<Author> authors;
 
-    public NewsRepositoryDataSourceImplementation() {
+    public NewsRepositoryImplementation() {
         DataSource dataSource = new DataSource();
         allNews = dataSource.getAllNews();
         authors = dataSource.getAuthors();

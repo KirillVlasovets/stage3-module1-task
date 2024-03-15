@@ -1,0 +1,22 @@
+[
+  { "id": 1, "name": "William Shakespeare" },
+  { "id": 2, "name": "Jane Austen" },
+  { "id": 3, "name": "Charles Dickens" },
+  { "id": 4, "name": "Mark Twain" },
+  { "id": 5, "name": "Emily Bronte" },
+  { "id": 6, "name": "Lev Tolstoy" },
+  { "id": 7, "name": "George Orwell" },
+  { "id": 8, "name": "F. Scott Fitzgerald" },
+  { "id": 9, "name": "Ernest Hemingway" },
+  { "id": 10, "name": "Charlotte Bronte" },
+  { "id": 11, "name": "Virginia Woolf" },
+  { "id": 12, "name": "Arthur Conan Doyle" },
+  { "id": 13, "name": "Agatha Christie" },
+  { "id": 14, "name": "J.K. Rowling" },
+  { "id": 15, "name": "George Eliot" },
+  { "id": 16, "name": "H.G. Wells" },
+  { "id": 17, "name": "J.R.R. Tolkien" },
+  { "id": 18, "name": "Emily Dickinson" },
+  { "id": 19, "name": "Oscar Wilde" },
+  { "id": 20, "name": "Stephen King" }
+]

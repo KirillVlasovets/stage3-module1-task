@@ -8,7 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mjc.school.repository.dao.NewsRepository;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsDtoResponseModel;
-import lombok.NoArgsConstructor;
+import com.mjc.school.repository.source.DataSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,32 +16,15 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@NoArgsConstructor
 public class NewsRepositoryImplementation implements NewsRepository {
 
     private List<NewsDtoResponseModel> allNews;
     private List<Author> authors;
 
-    {
-        try {
-            String jsonNews = Files.readString(Paths.get("module-repository/src/main/resources/content.json"));
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            CollectionType typeReferenceNews =
-                    TypeFactory.defaultInstance().constructCollectionType(List.class, NewsDtoResponseModel.class);
-
-            String jsonAuthors = Files.readString(Paths.get("module-repository/src/main/resources/author.json"));
-            CollectionType typeReferenceAuthors =
-                    TypeFactory.defaultInstance().constructCollectionType(List.class, Author.class);
-            try {
-                allNews = objectMapper.readValue(jsonNews, typeReferenceNews);
-                authors = objectMapper.readValue(jsonAuthors, typeReferenceAuthors);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    public NewsRepositoryImplementation() {
+        DataSource dataSource = new DataSource();
+        allNews = dataSource.getAllNews();
+        authors = dataSource.getAuthors();
     }
 
     @Override
@@ -50,7 +33,7 @@ public class NewsRepositoryImplementation implements NewsRepository {
     }
 
     @Override
-    public NewsDtoResponseModel readById(long newsId) {
+    public NewsDtoResponseModel readById(Long newsId) {
         try {
             return allNews.stream().filter(x -> x.getId() == newsId).toList().get(0);
         } catch (IndexOutOfBoundsException exception) {
@@ -60,43 +43,30 @@ public class NewsRepositoryImplementation implements NewsRepository {
     }
 
     @Override
-    public NewsDtoResponseModel create(String title, String content, long authorId) {
-        if (!authors.stream().map(Author::getId).toList().contains(authorId)) {
-            System.out.printf("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: %d%n", authorId);
+    public NewsDtoResponseModel create(NewsDtoResponseModel news) {
+        if (!authors.stream().map(Author::getId).toList().contains(news.getAuthorId())) {
+            System.out.printf("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: %d%n", news.getAuthorId());
             return null;
         }
-        LocalDateTime dateTime = LocalDateTime.now();
-        NewsDtoResponseModel newNews = NewsDtoResponseModel.builder()
-                .id(allNews.size() + 1)
-                .title(title)
-                .content(content)
-                .createDate(dateTime)
-                .lastUpdateDate(dateTime)
-                .authorId(authorId).build();
-        allNews.add(newNews);
-        return newNews;
+        news.setId(allNews.stream().mapToLong(NewsDtoResponseModel::getId).max().getAsLong() + 1);
+        allNews.add(news);
+        return news;
     }
 
     @Override
-    public NewsDtoResponseModel update(NewsDtoResponseModel news, String title, String content, long authorId) {
-        if (!authors.stream().map(Author::getId).toList().contains(authorId)) {
-            System.out.printf("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: %d%n", authorId);
+    public NewsDtoResponseModel update(NewsDtoResponseModel news) {
+        if (!authors.stream().map(Author::getId).toList().contains(news.getAuthorId())) {
+            System.out.printf("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: %d%n", news.getAuthorId());
             return null;
         }
-
         LocalDateTime dateTime = LocalDateTime.now();
-        NewsDtoResponseModel updatedNews = NewsDtoResponseModel.builder()
-                .id(news.getId())
-                .title(title)
-                .content(content)
-                .lastUpdateDate(dateTime)
-                .authorId(authorId).build();
-        allNews.set(allNews.indexOf(news), updatedNews);
-        return updatedNews;
+        news.setLastUpdateDate(dateTime);
+        allNews.set(allNews.indexOf(readById(news.getId())), news);
+        return news;
     }
 
     @Override
-    public Boolean delete(long newsId) {
+    public Boolean delete(Long newsId) {
         return allNews.remove(readById(newsId));
     }
 }

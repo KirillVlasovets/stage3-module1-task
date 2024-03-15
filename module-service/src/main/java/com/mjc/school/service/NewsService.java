@@ -49,7 +49,12 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: Author Id should be number");
             return createNews(scanner);
         }
-        return REPOSITORY.create(title, content, authorId);
+        NewsDtoResponseModel model = NewsDtoResponseModel.builder()
+                .title(title)
+                .content(content)
+                .authorId(authorId)
+                .build();
+        return REPOSITORY.create(model);
     }
 
     public NewsDtoResponseModel updateNews(Scanner scanner) {
@@ -82,7 +87,10 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: Author Id should be number");
             return createNews(scanner);
         }
-        return REPOSITORY.update(updatedNews, title, content, authorId);
+        updatedNews.setTitle(title);
+        updatedNews.setContent(content);
+        updatedNews.setAuthorId(authorId);
+        return REPOSITORY.update(updatedNews);
     }
 
     public boolean deleteNewsById(String stringNewsId) {

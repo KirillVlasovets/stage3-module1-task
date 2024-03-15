@@ -13,17 +13,21 @@ import java.time.LocalDateTime;
 public class NewsDtoResponseModel {
 
     @JsonProperty("id")
-    private long id;
+    @Builder.Default
+    private Long id = 0L;
     @JsonProperty("title")
     private String title;
     @JsonProperty("content")
     private String content;
     @JsonProperty("createDate")
-    private LocalDateTime createDate;
+    @Builder.Default
+    private LocalDateTime createDate = LocalDateTime.now();
     @JsonProperty("lastUpdatedDate")
-    private LocalDateTime lastUpdateDate;
+    @Builder.Default
+    private LocalDateTime lastUpdateDate = LocalDateTime.now();
     @JsonProperty("authorId")
-    private long authorId;
+    @Builder.Default
+    private Long authorId = 0L;
 
     @Override
     public String toString() {

@@ -8,11 +8,11 @@ public interface NewsRepository {
 
     List<NewsDtoResponseModel> readAll();
 
-    NewsDtoResponseModel readById(long newsId);
+    NewsDtoResponseModel readById(Long newsId);
 
-    NewsDtoResponseModel create(String title, String content, long authorId);
+    NewsDtoResponseModel create(NewsDtoResponseModel news);
 
-    NewsDtoResponseModel update(NewsDtoResponseModel news, String title, String content, long authorId);
+    NewsDtoResponseModel update(NewsDtoResponseModel news);
 
-    Boolean delete(long newsId);
+    Boolean delete(Long newsId);
 }

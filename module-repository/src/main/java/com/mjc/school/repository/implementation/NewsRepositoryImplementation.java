@@ -1,10 +1,11 @@
-package com.mjc.school.repository;
+package com.mjc.school.repository.implementation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mjc.school.repository.dao.NewsRepository;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsDtoResponse;
 
@@ -14,7 +15,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsRepository {
+public class NewsRepositoryImplementation implements NewsRepository {
 
     private List<NewsDtoResponse> allNews;
     private List<Author> authors;
@@ -41,11 +42,13 @@ public class NewsRepository {
         }
     }
 
-    public List<NewsDtoResponse> getAllNews() {
+    @Override
+    public List<NewsDtoResponse> readAll() {
         return allNews;
     }
 
-    public NewsDtoResponse getNewsById(long newsId) {
+    @Override
+    public NewsDtoResponse readById(long newsId) {
         try {
             return allNews.stream().filter(x -> x.getId() == newsId).toList().get(0);
         } catch (IndexOutOfBoundsException exception) {
@@ -54,7 +57,8 @@ public class NewsRepository {
         return null;
     }
 
-    public NewsDtoResponse createNews(String title, String content, long authorId) {
+    @Override
+    public NewsDtoResponse create(String title, String content, long authorId) {
         if (!authors.stream().map(Author::getId).toList().contains(authorId)) {
             System.out.printf("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: %d%n", authorId);
             return null;
@@ -71,7 +75,8 @@ public class NewsRepository {
         return newNews;
     }
 
-    public NewsDtoResponse updateNews(NewsDtoResponse news, String title, String content, long authorId) {
+    @Override
+    public NewsDtoResponse update(NewsDtoResponse news, String title, String content, long authorId) {
         if (!authors.stream().map(Author::getId).toList().contains(authorId)) {
             System.out.printf("ERROR_CODE: 000002 ERROR_MESSAGE: Author Id does not exist. Author Id is: %d%n", authorId);
             return null;
@@ -88,7 +93,8 @@ public class NewsRepository {
         return updatedNews;
     }
 
-    public boolean removeNewsById(long newsId) {
-        return allNews.remove(getNewsById(newsId));
+    @Override
+    public boolean delete(long newsId) {
+        return allNews.remove(readById(newsId));
     }
 }

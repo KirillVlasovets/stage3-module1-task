@@ -1,6 +1,6 @@
 package com.mjc.school.service;
 
-import com.mjc.school.repository.NewsRepository;
+import com.mjc.school.repository.implementation.NewsRepositoryImplementation;
 import com.mjc.school.repository.model.NewsDtoResponse;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class NewsService {
 
     private static NewsService instance;
-    private static final NewsRepository REPOSITORY = new NewsRepository();
+    private static final NewsRepositoryImplementation REPOSITORY = new NewsRepositoryImplementation();
 
     public static NewsService get() {
         if (instance == null) {
@@ -19,7 +19,7 @@ public class NewsService {
     }
 
     public List<NewsDtoResponse> getAllNews() {
-        return REPOSITORY.getAllNews();
+        return REPOSITORY.readAll();
     }
 
     public NewsDtoResponse getNewsById(String stringNewsId) {
@@ -30,7 +30,7 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
             return getNewsById(stringNewsId);
         }
-        return REPOSITORY.getNewsById(newsId);
+        return REPOSITORY.readById(newsId);
     }
 
     public NewsDtoResponse createNews(Scanner scanner) {
@@ -49,7 +49,7 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: Author Id should be number");
             return createNews(scanner);
         }
-        return REPOSITORY.createNews(title, content, authorId);
+        return REPOSITORY.create(title, content, authorId);
     }
 
     public NewsDtoResponse updateNews(Scanner scanner) {
@@ -62,7 +62,7 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
             return updateNews(scanner);
         }
-        NewsDtoResponse updatedNews = REPOSITORY.getNewsById(newsId);
+        NewsDtoResponse updatedNews = REPOSITORY.readById(newsId);
         if (updatedNews == null) {
             return updateNews(scanner);
         }
@@ -82,7 +82,7 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: Author Id should be number");
             return createNews(scanner);
         }
-        return REPOSITORY.updateNews(updatedNews, title, content, authorId);
+        return REPOSITORY.update(updatedNews, title, content, authorId);
     }
 
     public boolean deleteNewsById(String stringNewsId) {
@@ -93,7 +93,7 @@ public class NewsService {
             System.out.println("ERROR_CODE: 000013 ERROR_MESSAGE: News Id should be number");
             return deleteNewsById(stringNewsId);
         }
-        return REPOSITORY.removeNewsById(newsId);
+        return REPOSITORY.delete(newsId);
     }
 
     private boolean checkTitleAndContent(String title, String content) {
